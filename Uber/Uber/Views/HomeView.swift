@@ -38,7 +38,7 @@ struct HomeView: View {
                 RideRequest()
                     .transition(.move(edge: .bottom))
             }
-        }
+        }.edgesIgnoringSafeArea(.bottom)
     }
 }
 

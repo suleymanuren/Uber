@@ -83,15 +83,16 @@ extension UberMapViewRepresentable {
             
             parent.mapView.addAnnotation(anno) //marker ekler
             parent.mapView.selectAnnotation(anno, animated: true) //marker işaretleme
-            parent.mapView.showAnnotations(parent.mapView.annotations, animated: true) //markerleri gösterme
         }
         
         func configurePolyline (withDestinationCoordinate coordinate : CLLocationCoordinate2D) {
             guard let userLocationCoordinate = self.userLocationCoordinate else {return}
             
-            getDestinationRoute(from: userLocationCoordinate  , to: coordinate) { route in
+            getDestinationRoute(from: userLocationCoordinate , to: coordinate) { route in
                 self.parent.mapView.addOverlay(route.polyline) //hedef konuma polyline çiziyor
-            
+                let rect = self.parent.mapView.mapRectThatFits(route.polyline.boundingMapRect, edgePadding: .init(top: 64, left: 32, bottom: 600, right: 32))
+
+                self.parent.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
             }
         }
         
