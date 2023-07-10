@@ -14,6 +14,7 @@
 		831032E12A5C182E00B9120E /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831032E02A5C182E00B9120E /* HomeView.swift */; };
 		831032E32A5C188B00B9120E /* UberMapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831032E22A5C188B00B9120E /* UberMapViewRepresentable.swift */; };
 		831032E52A5C19EA00B9120E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831032E42A5C19EA00B9120E /* LocationManager.swift */; };
+		835681532A5C48B900C5B454 /* RideRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835681522A5C48B900C5B454 /* RideRequest.swift */; };
 		83B5BC4E2A5C271E00F9F8C7 /* LocationSearchBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B5BC4D2A5C271E00F9F8C7 /* LocationSearchBox.swift */; };
 		83B5BC502A5C285500F9F8C7 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B5BC4F2A5C285500F9F8C7 /* ActionButton.swift */; };
 		83B5BC522A5C29E300F9F8C7 /* LocationSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B5BC512A5C29E300F9F8C7 /* LocationSearch.swift */; };
@@ -31,6 +32,7 @@
 		831032E02A5C182E00B9120E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		831032E22A5C188B00B9120E /* UberMapViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UberMapViewRepresentable.swift; sourceTree = "<group>"; };
 		831032E42A5C19EA00B9120E /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		835681522A5C48B900C5B454 /* RideRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideRequest.swift; sourceTree = "<group>"; };
 		83B5BC4D2A5C271E00F9F8C7 /* LocationSearchBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchBox.swift; sourceTree = "<group>"; };
 		83B5BC4F2A5C285500F9F8C7 /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		83B5BC512A5C29E300F9F8C7 /* LocationSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearch.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				831032DD2A5C17FC00B9120E /* Models */,
 				831032DC2A5C17F300B9120E /* Extensions */,
 				831032DA2A5C17E800B9120E /* ViewModels */,
+				835681542A5C4F4700C5B454 /* utils */,
 				831032D92A5C17DC00B9120E /* Views */,
 				831032CB2A5C177700B9120E /* UberApp.swift */,
 				831032CD2A5C177700B9120E /* ContentView.swift */,
@@ -96,9 +99,6 @@
 				831032E02A5C182E00B9120E /* HomeView.swift */,
 				831032E22A5C188B00B9120E /* UberMapViewRepresentable.swift */,
 				83B5BC512A5C29E300F9F8C7 /* LocationSearch.swift */,
-				83B5BC532A5C2C4D00F9F8C7 /* LocationSearchResult.swift */,
-				83B5BC4D2A5C271E00F9F8C7 /* LocationSearchBox.swift */,
-				83B5BC4F2A5C285500F9F8C7 /* ActionButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -132,6 +132,17 @@
 				831032E42A5C19EA00B9120E /* LocationManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		835681542A5C4F4700C5B454 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				83B5BC4D2A5C271E00F9F8C7 /* LocationSearchBox.swift */,
+				83B5BC4F2A5C285500F9F8C7 /* ActionButton.swift */,
+				83B5BC532A5C2C4D00F9F8C7 /* LocationSearchResult.swift */,
+				835681522A5C48B900C5B454 /* RideRequest.swift */,
+			);
+			path = utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				831032E32A5C188B00B9120E /* UberMapViewRepresentable.swift in Sources */,
+				835681532A5C48B900C5B454 /* RideRequest.swift in Sources */,
 				83B5BC542A5C2C4D00F9F8C7 /* LocationSearchResult.swift in Sources */,
 				831032E12A5C182E00B9120E /* HomeView.swift in Sources */,
 				83B5BC562A5C328200F9F8C7 /* LocationSearchViewModel.swift in Sources */,

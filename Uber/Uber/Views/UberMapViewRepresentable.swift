@@ -13,6 +13,8 @@ struct UberMapViewRepresentable: UIViewRepresentable {
     let mapView = MKMapView()
     let locationManager = LocationManager()
     @EnvironmentObject var locationViewModel : LocationSearchViewModel
+    @Binding var mapState : MapViewState
+    
     
     func makeUIView(context: Context) -> some UIView {
         mapView.delegate = context.coordinator
@@ -24,9 +26,19 @@ struct UberMapViewRepresentable: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIViewType, context: Context) {
-        if let coordinate = locationViewModel.selectedLocationCoordinate {
-            context.coordinator.addAndSelectAnnotation(withCoordinate: coordinate) //seçilen yere marker oluşturuyor
-            context.coordinator.configurePolyline(withDestinationCoordinate: coordinate) // seçilen yere rotasyon çizgisi oluşturuyor
+        switch mapState {
+        case .noInput:
+            context.coordinator.clearMapViewandCenterUserLocation()
+            break
+        case .searchingForLocation:
+            
+            break
+        case .locationSelected:
+            if let coordinate = locationViewModel.selectedLocationCoordinate {
+                context.coordinator.addAndSelectAnnotation(withCoordinate: coordinate) //seçilen yere marker oluşturuyor
+                context.coordinator.configurePolyline(withDestinationCoordinate: coordinate) // seçilen yere rotasyon çizgisi oluşturuyor
+            }
+            break
         }
     }
     
@@ -39,6 +51,7 @@ extension UberMapViewRepresentable {
     class MapCoordinator : NSObject, MKMapViewDelegate {
         let parent : UberMapViewRepresentable
         var userLocationCoordinate : CLLocationCoordinate2D?
+        var currentRegion : MKCoordinateRegion?
 
         
         init(parent: UberMapViewRepresentable) {
@@ -51,14 +64,14 @@ extension UberMapViewRepresentable {
             let region = MKCoordinateRegion( //genel mapin hali kullanıcı konumunda açılıyor vs
                 center: CLLocationCoordinate2DMake(userLocation.coordinate.latitude, userLocation.coordinate.longitude),
                 span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
-            
+            self.currentRegion = region //navigasyon sıfırlandıktan sonra user lokasyonunu ortalıyor
             parent.mapView.setRegion(region, animated: true)
         }
         
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer { //seçilen hedef ile konum arasına polyline (çizgi koyuluyor)
             let polyline = MKPolylineRenderer(overlay: overlay)
             polyline.strokeColor = .systemRed
-            polyline.lineWidth = 6 //polyline ayarları 
+            polyline.lineWidth = 6 //polyline ayarları
             
             return polyline
         }
@@ -109,7 +122,14 @@ extension UberMapViewRepresentable {
                 }
                 
             }
+        func clearMapViewandCenterUserLocation() { // genel olarak mapi temizliyor marker , polyline , map location
+            parent.mapView.removeAnnotations(parent.mapView.annotations)
+            parent.mapView.removeOverlays(parent.mapView.overlays)
         
+            if let currentRegion = currentRegion {
+                parent.mapView.setRegion(currentRegion, animated: true)
+            }
+        }
         
     }
     

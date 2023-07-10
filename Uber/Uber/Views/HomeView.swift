@@ -8,28 +8,36 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var showLocationSearchField = false
+    @State private var mapState = MapViewState.noInput
     var body: some View {
-        ZStack (alignment: .top) {
-            UberMapViewRepresentable()
-                .edgesIgnoringSafeArea(.all)
-           
-            if showLocationSearchField {
-                LocationSearch(showLocationSearchView: $showLocationSearchField)
-                
-            } else {
-                LocationSearchBox()
-                    .padding(.vertical,60)
-                    .onTapGesture {
-                        withAnimation {
-                            showLocationSearchField.toggle()
+        ZStack (alignment: .bottom){
+            ZStack (alignment: .top) {
+                UberMapViewRepresentable(mapState: $mapState)
+                    .edgesIgnoringSafeArea(.all)
+               
+                if mapState == .searchingForLocation {
+                    LocationSearch(mapState: $mapState)
+                    
+                    
+                } else if mapState == .noInput {
+                    LocationSearchBox()
+                        .padding(.vertical,60)
+                        .onTapGesture {
+                            withAnimation {
+                                mapState = .searchingForLocation
+                            }
                         }
-                    }
+                }
+                ActionButton(mapState: $mapState)
+                    .padding(.leading)
+                    .padding(.vertical , 4)
+              
             }
-            ActionButton(isSearching: $showLocationSearchField)
-                .padding(.leading)
-                .padding(.vertical , 4)
-          
+            
+            if mapState == .locationSelected {
+                RideRequest()
+                    .transition(.move(edge: .bottom))
+            }
         }
     }
 }
@@ -37,6 +45,5 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
-            .environmentObject(LocationManager())
     }
 }
