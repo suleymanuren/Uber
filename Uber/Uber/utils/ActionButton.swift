@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ActionButton: View {
     @Binding var mapState : MapViewState
+    @EnvironmentObject var viewModel : LocationSearchViewModel
     var body: some View {
         
         Button {
@@ -33,6 +34,7 @@ struct ActionButton: View {
             print("no input")
         case.locationSelected:
             mapState = .noInput
+            viewModel.selectedLocationCoordinate = nil //geri gidildiğinde bir önce ki kordinatları boşaltıyor
         case.searchingForLocation:
             mapState = .noInput
         }

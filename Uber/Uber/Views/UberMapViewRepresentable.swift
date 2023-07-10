@@ -90,7 +90,7 @@ extension UberMapViewRepresentable {
             
             getDestinationRoute(from: userLocationCoordinate , to: coordinate) { route in
                 self.parent.mapView.addOverlay(route.polyline) //hedef konuma polyline çiziyor
-                let rect = self.parent.mapView.mapRectThatFits(route.polyline.boundingMapRect, edgePadding: .init(top: 64, left: 32, bottom: 600, right: 32))
+                let rect = self.parent.mapView.mapRectThatFits(route.polyline.boundingMapRect, edgePadding: .init(top: 64, left: 32, bottom: 600, right: 32)) // altta açılan kart ile ekrana sığması için
 
                 self.parent.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
             }
