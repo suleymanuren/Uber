@@ -11,7 +11,7 @@ import MapKit
 struct UberMapViewRepresentable: UIViewRepresentable {
     
     let mapView = MKMapView()
-    let locationManager = LocationManager()
+    let locationManager = LocationManager.shared
     @EnvironmentObject var locationViewModel : LocationSearchViewModel
     @Binding var mapState : MapViewState
     
@@ -34,10 +34,12 @@ struct UberMapViewRepresentable: UIViewRepresentable {
             
             break
         case .locationSelected:
-            if let coordinate = locationViewModel.selectedLocationCoordinate {
+            if let coordinate = locationViewModel.selectedUberLocation?.coordinate {
                 context.coordinator.addAndSelectAnnotation(withCoordinate: coordinate) //seçilen yere marker oluşturuyor
                 context.coordinator.configurePolyline(withDestinationCoordinate: coordinate) // seçilen yere rotasyon çizgisi oluşturuyor
             }
+            break
+        case .polylineAdded:
             break
         }
     }
@@ -88,41 +90,15 @@ extension UberMapViewRepresentable {
         func configurePolyline (withDestinationCoordinate coordinate : CLLocationCoordinate2D) {
             guard let userLocationCoordinate = self.userLocationCoordinate else {return}
             
-            getDestinationRoute(from: userLocationCoordinate , to: coordinate) { route in
+            parent.locationViewModel.getDestinationRoute(from: userLocationCoordinate , to: coordinate) { route in
                 self.parent.mapView.addOverlay(route.polyline) //hedef konuma polyline çiziyor
                 let rect = self.parent.mapView.mapRectThatFits(route.polyline.boundingMapRect, edgePadding: .init(top: 64, left: 32, bottom: 600, right: 32)) // altta açılan kart ile ekrana sığması için
-
+                self.parent.mapState = .polylineAdded
                 self.parent.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
             }
         }
         
-        func getDestinationRoute(
-            from userLocation : CLLocationCoordinate2D,
-            to destination : CLLocationCoordinate2D,
-            completion : @escaping(MKRoute) -> Void) {
-                let userPlaceMark = MKPlacemark(coordinate: userLocation) // kullanıcı konumu
-                let destPlaceMark = MKPlacemark(coordinate: destination) //hedef
-                
-                let request = MKDirections.Request() // navigasyon sorgusu oluşturuyoruz
-                
-                request.source = MKMapItem(placemark: userPlaceMark) //yukarıda başlatılan sorgunun başlangıç noktası
-                request.destination = MKMapItem(placemark: MKPlacemark(placemark: destPlaceMark)) //yukarıda başlatılan sorgunun hedef noktası
-                
-                let directions = MKDirections(request: request) //navigasyon oluşturuyor
-                
-                directions.calculate { response, error in
-                    if let error = error {
-                        print("error destination route func \(error.localizedDescription)")
-                    
-                        return
-                    }
-                    
-                    guard let route = response?.routes.first else {return} //konuma çizilen ilk rotasyonu alıyoruz ilki genelde en hızlısı oluyor fakat değiştirebilir
-                    
-                    completion(route)
-                }
-                
-            }
+     
         func clearMapViewandCenterUserLocation() { // genel olarak mapi temizliyor marker , polyline , map location
             parent.mapView.removeAnnotations(parent.mapView.annotations)
             parent.mapView.removeOverlays(parent.mapView.overlays)

@@ -32,9 +32,9 @@ struct ActionButton: View {
         switch state {
         case .noInput:
             print("no input")
-        case.locationSelected:
+        case.locationSelected , .polylineAdded:
             mapState = .noInput
-            viewModel.selectedLocationCoordinate = nil //geri gidildiğinde bir önce ki kordinatları boşaltıyor
+            viewModel.selectedUberLocation = nil //geri gidildiğinde bir önce ki kordinatları boşaltıyor
         case.searchingForLocation:
             mapState = .noInput
         }
@@ -45,8 +45,11 @@ struct ActionButton: View {
         case .noInput:
             return "line.3.horizontal"
             
-        case.locationSelected, .searchingForLocation:
+        case.locationSelected, .searchingForLocation , .polylineAdded:
             return "arrow.left"
+            
+        default:
+            return "line3.horizontal"
         }
     }
 }
