@@ -121,7 +121,6 @@ struct RideRequest: View {
                 
                 Text("**** 1234")
                     .fontWeight(.bold)
-                    .foregroundColor(.black)
                 
                 Spacer()
                 
@@ -133,8 +132,8 @@ struct RideRequest: View {
                 .background(Color(.systemGroupedBackground))
                 .cornerRadius(10)
                 .padding(.horizontal)
-            //ride button
             
+            //ride button
             Button {
                 
             } label: {
@@ -148,7 +147,7 @@ struct RideRequest: View {
 
         }
         .padding(.bottom , 24 )
-        .background(.white)
+        .background(Color.theme.backgroundColor)
         .cornerRadius(16)
 
     }

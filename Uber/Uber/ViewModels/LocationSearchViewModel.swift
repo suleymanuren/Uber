@@ -13,17 +13,17 @@ class LocationSearchViewModel : NSObject, ObservableObject {
     
     @Published var results = [MKLocalSearchCompletion]() //arama sonuçları
     @Published var selectedUberLocation : UberLocation? //seçilen lokasyon
-    @Published var pickupTime : String? //
-    @Published var dropOffTime : String? //
+    @Published var pickupTime : String? // alış saati
+    @Published var dropOffTime : String? // variş saati
     
     private let searchCompleter = MKLocalSearchCompleter()
-    
+    var userLocation : CLLocationCoordinate2D?
+
     var queryFragment : String = "" {
         didSet { // anlık yazılan harfleri dinliyor
             searchCompleter.queryFragment = queryFragment
         }
     }
-    var userLocation : CLLocationCoordinate2D?
     
     override init() {
         super.init()
